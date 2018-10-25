@@ -14,6 +14,8 @@ public class CoinManager : MonoBehaviour {
     [SerializeField]
     private float spawnDelay;
     public Vector3 scaleSet;
+
+    public GameObject fireball;
     // Audio
     public AudioClip nom;
     public AudioClip coin;
@@ -67,10 +69,11 @@ public class CoinManager : MonoBehaviour {
             scaleSet += new Vector3(scaleIncrease, scaleIncrease, scaleIncrease);
             Debug.Log("CoinCol");
             if (col.tag == "Coin") {
+                ObjectPooler.Instance.AddToPool(fireball);
                 Destroy(col.gameObject);
             }
             if (col.tag == "Fireball") {
-                ObjectPooler.Instance.AddToPool("Fireball", col.gameObject.transform.parent.gameObject);
+                ObjectPooler.Instance.BackToPool("Fireball", col.gameObject.transform.parent.gameObject);
             }
             //nom sound
             source.PlayOneShot(nom, 1);
@@ -78,10 +81,13 @@ public class CoinManager : MonoBehaviour {
             this.gameObject.GetComponent<PlayerController>().ScaleToOffsetPoints();
         }
         if (col.tag == "Mushroom") {
-            gameObject.GetComponent<PlayerController>().coinAmount += 4;
-            scaleSet += new Vector3(scaleIncrease * 4, scaleIncrease * 4, scaleIncrease * 4);
-            col.SendMessage("Hit");
+            for (int i = 0; i < 4; i++){
+                gameObject.GetComponent<PlayerController>().coinAmount += 1;
+                scaleSet += new Vector3(scaleIncrease, scaleIncrease, scaleIncrease);
+                ObjectPooler.Instance.AddToPool(fireball);
+            }
             this.gameObject.GetComponent<PlayerController>().ScaleToOffsetPoints();
+            col.SendMessage("Hit");
         }
     }
 }

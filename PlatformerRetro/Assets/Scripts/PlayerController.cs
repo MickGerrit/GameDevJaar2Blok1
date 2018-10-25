@@ -138,6 +138,8 @@ public class PlayerController : RaycastEngine {
                 source.pitch = Random.Range(0.9f, 1.1f);
                 moveUp.lastHit = null;
             }
+        }
+        if (moveUp.lastHit != null) {
             if (moveUp.lastHit.tag == "CoinBlock") {
                 moveUp.lastHit.SendMessage("Hit");
                 source.PlayOneShot(brick, 1);

@@ -20,12 +20,14 @@ public class ObjectPooler : MonoBehaviour {
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
 
-	// Setting up the objectpool
-	private void Start () {
+    Queue<GameObject> objectPool;
+
+    // Setting up the objectpool
+    private void Start () {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools) {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+            objectPool = new Queue<GameObject>();
 
             for(int i = 0; i < pool.size; i++) {
                 GameObject obj = Instantiate(pool.prefab);
@@ -62,10 +64,15 @@ public class ObjectPooler : MonoBehaviour {
     }
 
     //add a gameobject back in the pool
-    public void AddToPool(string tag, GameObject objectToSpawn) {
-        Debug.Log("AddToPool");
-        poolDictionary[tag].Enqueue(objectToSpawn);
-        objectToSpawn.SetActive(false);
+    public void BackToPool(string tag, GameObject objectBackToPool) {
+        Debug.Log("BackToPool");
+        poolDictionary[tag].Enqueue(objectBackToPool);
+        objectBackToPool.SetActive(false);
+    }
+    public void AddToPool(GameObject newObjectToPool) {
+        GameObject obj = Instantiate(newObjectToPool);
+        obj.SetActive(false);
+        objectPool.Enqueue(obj);
     }
 
 

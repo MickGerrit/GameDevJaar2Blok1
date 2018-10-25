@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class Entity : MonoBehaviour {
+public class Entity : MonoBehaviour {
 
     public int health = 1;
     [SerializeField]
@@ -20,9 +20,14 @@ abstract public class Entity : MonoBehaviour {
             if (prefab != null) {
                 for (int i = 0; i < instantTransform.Length; i++) {
                     Debug.Log("Instantiate");
-                    Instantiate(prefab, new Vector3(instantTransform[i].position.x, instantTransform[i].position.y, 
+                    Instantiate(prefab, new Vector3(instantTransform[i].position.x, instantTransform[i].position.y,
                         instantTransform[i].position.z), Quaternion.identity);
-                } 
+                    if (prefab.GetComponent<Rigidbody2D>() != null) {
+                        if (prefab.GetComponent<Fireball>() != null) {
+                            prefab.GetComponent<Fireball>().stopThis = true;
+                        }
+                    }
+                }
             }
 
             Destroy(this.gameObject);

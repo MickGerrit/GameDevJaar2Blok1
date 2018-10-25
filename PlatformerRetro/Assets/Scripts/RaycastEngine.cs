@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaycastEngine : Entity {
+abstract public class RaycastEngine : Entity {
     //Variables, serialized so they can be changed in inspector
     [Header("Raycasts")]
     [SerializeField]
@@ -12,7 +12,7 @@ public class RaycastEngine : Entity {
     private float parallelInsetLen;
     [SerializeField]
     private float groundTestLen;
-    //Inset so the rays dont touch
+    //Inset so the rays dont touch eachother
     [SerializeField]
     private float perpendicularInsetLen;
     [SerializeField]
@@ -116,12 +116,19 @@ public class RaycastEngine : Entity {
         }
     }
 
-    //Function to hold the raycasts at its place in the object scale
+    //Function to hold the raycasts at its place in relation to the object scale
     public void ScaleToOffsetPoints() {
         bool rayReplace = true;
         if (rayReplace == true) {
             float oldHalfRayLength = halfRayLength;
-            halfRayWidth = width / 2 * transform.localScale.x;
+
+            //this fixes a bug where the left and right rays will switch because the x scale is minus. this way it tackles it
+            if (transform.localScale.x >= 0) {
+                halfRayWidth = width / 2 * transform.localScale.x;
+            } else if (transform.localScale.x < 0) {
+                halfRayWidth = width / 2 * -transform.localScale.x;
+            }
+            
             halfRayLength = length / 2 * transform.localScale.y;
             moveDown = new RaycastMoveDirection(new Vector2(-halfRayWidth, -halfRayLength), new Vector2(halfRayWidth, -halfRayLength), Vector2.down,
                 platformMask, Vector2.right * parallelInsetLen, Vector2.up * perpendicularInsetLen);

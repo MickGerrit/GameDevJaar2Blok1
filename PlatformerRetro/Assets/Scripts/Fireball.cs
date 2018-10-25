@@ -9,8 +9,7 @@ public class Fireball : RaycastEngine, IPooledObject {
     private GameObject player;
     [SerializeField]
     private Rigidbody2D rb;
-    [SerializeField]
-    private bool stopThis;
+    public bool stopThis;
     [SerializeField]
     private bool noHorizMovement;
     private float enemyHitDelay;
@@ -42,6 +41,8 @@ public class Fireball : RaycastEngine, IPooledObject {
             Movement(neededDir, neededDir);
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
+        } else {
+            rb.isKinematic = true;
         }
         if (groundDown.DoRaycast(transform.position) && GetSign(velocity.x) != 0) {
             velocity.y += 1;
