@@ -20,14 +20,14 @@ public class PlayerController : RaycastEngine {
     private float jumpMinSpeed;
     [SerializeField]
     private float weightMultiplier;
-    public int coinAmount { get; set; }
+    public int coinAmount;
 
     private float jumpStartTimer;
     private float jumpHoldTimer;
     private bool jumpInputDown;
     private JumpState jumpState;
     private bool setScale = false;
-    int testAmount = 0;
+    private int testAmount = 0;
     [SerializeField]
     private float invincibleTime;
     private int idleDir = 1;

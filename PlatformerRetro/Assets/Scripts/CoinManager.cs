@@ -21,7 +21,7 @@ public class CoinManager : MonoBehaviour {
     public AudioClip coin;
     private AudioSource source;
 
-    void Start() {
+    private void Start() {
         source = GetComponent<AudioSource>();
         spawnPosOffset = 1f;
         wantedDir = 1;

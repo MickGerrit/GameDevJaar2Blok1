@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RaycastCheckTouch{
-    protected Vector2 raycastDirection;
+    private Vector2 raycastDirection;
     public Vector2[] offsetPoints;
-    protected LayerMask layerMask;
-    protected float addLength;
-    protected float raycastLen;
+    private LayerMask layerMask;
+    private float addLength;
+    private float raycastLen;
 
     //Setting up certain raycasts
     public RaycastCheckTouch(Vector2 start, Vector2 end, Vector2 dir, LayerMask mask, Vector2 parallelInset, Vector2 perpendicularInset, float checkLength) {
